@@ -49,6 +49,22 @@ switch ($method) {
         }
         break;
 
+    case 'PUT':
+        if ($resource === 'books') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            if (isset($data['bookName']) && isset($data['bookDescription']) && isset($data['user_id']) &&
+            !empty(trim($data['bookName'])) &&
+            !empty(trim($data['bookDescription'])) &&
+            !empty($data['user_id'])) {
+
+                $newId = $book->updateBook($data);
+                echo json_encode(['message' => 'Book updated successfully']);
+            } else {
+                echo json_encode(['error' => 'Missing required fields']);
+            }
+        }
+        break;
+
     default:
         http_response_code(405);
         echo json_encode(['error' => 'Method Not Allowed']);

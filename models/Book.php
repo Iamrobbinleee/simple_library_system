@@ -26,16 +26,16 @@ class Book {
         return $book->insert_id;
     }
 
-    public function updateBook($id, $data) {
-        $item = $this->db->prepare("UPDATE items SET name = ?, user_id = ? WHERE id = ?");
-        $item->bind_param("sii", $data['name'], $data['user_id'], $id);
-        return $item->execute();
+    public function updateBook($data) {
+        $book = $this->db->prepare("UPDATE books SET name = ?, description = ? WHERE id = ?");
+        $book->bind_param("ssi", $data['bookName'], $data['bookDescription'], $data['bookId']);
+        return $book->execute();
     }
 
     public function deleteBook($id) {
-        $item = $this->db->prepare("DELETE FROM items WHERE id = ?");
-        $item->bind_param("i", $id);
-        return $item->execute();
+        $book = $this->db->prepare("DELETE FROM books WHERE id = ?");
+        $book->bind_param("i", $id);
+        return $book->execute();
     }
 }
 ?>

@@ -71,7 +71,7 @@
 const userId = <?php echo json_encode($user_id); ?>;
 
 function loadBooks() {
-    fetch(`http://library_system_first_philec.proj/controllers/BookController.php/books/${userId}`)
+    fetch(`http://simple_library_system.proj/controllers/BookController.php/books/${userId}`)
         .then(res => res.json())
         .then(data => {
             const tbody = document.querySelector('#bookTable tbody');
@@ -92,7 +92,7 @@ function loadBooks() {
                         <td>${book.name}</td>
                         <td>${book.description}</td>
                         <td>
-                            <button onclick="editBook(${book.id}, '${book.name}', '${book.description}')">Edit</button>
+                            <button onclick="editBook(${book.id}, '${book.name}', '${book.description}',)">Edit</button>
                             <button onclick="deleteBook(${book.id})">Delete</button>
                         </td>
                     `;
@@ -113,7 +113,7 @@ document.getElementById('addBookBtn').addEventListener('click', () => {
         return;
     }
 
-    fetch('http://library_system_first_philec.proj/controllers/BookController.php/books', {
+    fetch('http://simple_library_system.proj/controllers/BookController.php/books', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ user_id: userId, name: name, description: desc })
@@ -127,6 +127,29 @@ document.getElementById('addBookBtn').addEventListener('click', () => {
     })
     .catch(err => console.error(err));
 });
+
+function editBook(bookId, bookName, bookDescription){
+    // console.info(bookId + ' | ' + bookName + ' | ' + bookDescription);
+    let newName = prompt("Enter new book name:", bookName);
+    let newDesc = prompt("Enter new book description:", bookDescription);
+
+    if (newName) bookName = newName;
+    if (newDesc) bookDescription = newDesc;
+
+    fetch('http://simple_library_system.proj/controllers/BookController.php/books', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ user_id: userId, bookId: bookId, bookName: bookName, bookDescription: bookDescription })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert('Book updated successfully.');
+        document.getElementById('bookName').value = bookName;
+        document.getElementById('bookDesc').value = bookDescription;
+        loadBooks();
+    })
+    .catch(err => console.error(err));
+}
 
 loadBooks();
 </script>
