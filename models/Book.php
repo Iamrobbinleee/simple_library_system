@@ -32,9 +32,9 @@ class Book {
         return $book->execute();
     }
 
-    public function deleteBook($id) {
+    public function deleteBook($data) {
         $book = $this->db->prepare("DELETE FROM books WHERE id = ?");
-        $book->bind_param("i", $id);
+        $book->bind_param("i", $data['bookId']);
         return $book->execute();
     }
 }

@@ -58,10 +58,18 @@ switch ($method) {
             !empty($data['user_id'])) {
 
                 $newId = $book->updateBook($data);
-                echo json_encode(['message' => 'Book updated successfully']);
+                echo json_encode(['message' => 'Book updated successfully.']);
             } else {
                 echo json_encode(['error' => 'Missing required fields']);
             }
+        }
+        break;
+
+    case 'DELETE':
+        if ($resource === 'books') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $book->deleteBook($data);
+            echo json_encode(['message' => 'Book has been deleted successfully.']);
         }
         break;
 

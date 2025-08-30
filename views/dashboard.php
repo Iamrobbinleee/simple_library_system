@@ -151,6 +151,20 @@ function editBook(bookId, bookName, bookDescription){
     .catch(err => console.error(err));
 }
 
+function deleteBook(bookId){
+    fetch('http://simple_library_system.proj/controllers/BookController.php/books', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ bookId: bookId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert('Book has been deleted successfully.');
+        loadBooks();
+    })
+    .catch(err => console.error(err));
+}
+
 loadBooks();
 </script>
 </body>
