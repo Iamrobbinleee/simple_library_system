@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Login Page</title>
 </head>
 <body>
@@ -32,7 +32,7 @@
             <br>
             <div style="text-align: center; gap: 15px;">
                 <button class="btn btn-primary btn-md" type="submit">Login</button>
-                <a href="/views/register_page.php">Register now!</a>
+                <a href="/views/register_page.php" class="btn btn-secondary btn-md">Register now!</a>
             </div>
         </div>
         <div class="col-md-3"></div>

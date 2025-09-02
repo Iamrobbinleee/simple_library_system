@@ -41,8 +41,8 @@
             </div>
             <br>
             <div style="text-align: center; gap: 15px;">
-                <button class="btn btn-primary btn-md" type="submit">Register</button>
-                <a href="/index.php">Back to Login</a>
+                <button class="btn btn-success btn-md" type="submit">Register</button>
+                <a href="/index.php" class="btn btn-primary btn-md">Back to Login</a>
             </div>
         </form>
         </div>
