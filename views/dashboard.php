@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.3/css/dataTables.dataTables.min.css" crossorigin="anonymous">
     <title>Dashboard Page</title>
 </head>
 <body>
@@ -19,54 +20,77 @@
 <div style="text-align: center; margin-top: 50px;">
     <h2>Welcome to the Dashboard Page, <?php echo $_SESSION['username']; ?></h2>
     <br>
-    <a href="/controllers/logout.php">Signout</a>
+    <a href="/controllers/logout.php" class="btn btn-secondary btn-sm">Signout</a>
 </div>
 <br>
+<div class="container">
+    <!-- Add Book Form -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Add New Book</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label" for="book_name">Book name: </label>
+                    <input type="text" id="bookName" placeholder="ex. Peter Pan" class="form-control" required>
+                    <br>
+                    <label class="form-label" for="book_desc">Book description: </label>
+                    <input type="text" id="bookDesc" placeholder="ex. Fantasy and Non-fiction story."class="form-control" required>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white" style="text-align: right;">
+            <button id="addBookBtn" class="btn btn-success btn-sm">Add Book</button>
+        </div>
+    </div>
+    <br>
 
-<!-- Add Book Form -->
-<div style="text-align: center;">
-    <h3>Add New Book</h3>
-    <input type="text" id="bookName" placeholder="Book Name">
-    <input type="text" id="bookDesc" placeholder="Description">
-    <button id="addBookBtn">Add Book</button>
-</div>
-<br>
+    <!-- List of Book -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>My Books</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped" border="1" style="border-collapse: collapse; text-align: center; width: 100%;" id="bookTable">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Book Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<!-- List of Book -->
-<div style="margin: 10px;">
-    <h2>My Books</h2>
-    <table border="1" style="border-collapse: collapse; text-align: center; width: 100%;" id="bookTable">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Book Name</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-
-<!-- Borrowed Books -->
-<div style="margin: 10px;">
-    <h2>Borrowed Books</h2>
-    <table border="1" style="border-collapse: collapse; text-align: center; width: 100%;" id="bookTable">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Book Name</th>
-                <th>Description</th>
-                <th>Borrowed From</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <!-- Borrowed Books -->
+    <div style="margin: 10px;">
+        <h2>Borrowed Books</h2>
+        <div class="table-responsive">
+            <table class="table table-striped" border="1" style="border-collapse: collapse; text-align: center; width: 100%;" id="borrowedBookTable">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Book Name</th>
+                        <th>Description</th>
+                        <th>Borrowed From</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.3/js/dataTables.min.js"></script>
 <script>
 const userId = <?php echo json_encode($user_id); ?>;
 
@@ -92,12 +116,14 @@ function loadBooks() {
                         <td>${book.name}</td>
                         <td>${book.description}</td>
                         <td>
-                            <button onclick="editBook(${book.id}, '${book.name}', '${book.description}',)">Edit</button>
-                            <button onclick="deleteBook(${book.id})">Delete</button>
+                            <button onclick="editBook(${book.id}, '${book.name}', '${book.description}',)" class="btn btn-success btn-sm">Edit</button>
+                            <button onclick="deleteBook(${book.id})" class="btn btn-danger btn-sm">Delete</button>
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
+
+                new DataTable('#bookTable');
             }    
         })
         .catch(err => console.error(err));
@@ -109,7 +135,7 @@ document.getElementById('addBookBtn').addEventListener('click', () => {
     const desc = document.getElementById('bookDesc').value.trim();
 
     if (!name || !desc) {
-        alert('Please enter both name and description.');
+        alert('Please enter name and description.');
         return;
     }
 
